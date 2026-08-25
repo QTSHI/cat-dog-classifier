@@ -1,4 +1,4 @@
-"""评估 NumPy 模型并输出混淆矩阵。"""
+"""测试 NumPy 模型。"""
 
 import argparse
 from pathlib import Path
@@ -26,7 +26,7 @@ def parse_args():
 
 
 def evaluate(data_dir, model_path, batch_size=16, max_samples=None):
-    """评估指定模型并返回 ClassificationMetrics。"""
+    """测试指定模型。"""
 
     test_paths, test_labels = collect_dataset(data_dir)
     test_paths, test_labels = limit_dataset(test_paths, test_labels, max_samples)

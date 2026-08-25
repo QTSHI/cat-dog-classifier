@@ -1,4 +1,4 @@
-"""设备选择、随机种子与模型存档工具。"""
+"""设备、随机种子和模型文件。"""
 
 import random
 from pathlib import Path

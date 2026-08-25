@@ -1,4 +1,4 @@
-"""NumPy 版本共用的路径和默认配置。"""
+"""集中放路径和训练参数。"""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -13,7 +13,7 @@ OUTPUT_ROOT = PROJECT_ROOT / "outputs" / "numpy_modular"
 
 @dataclass(frozen=True)
 class TrainingConfig:
-    """训练入口使用的配置；命令行参数可以覆盖这些默认值。"""
+    """NumPy 训练参数。"""
 
     seed: int = 23
     validation_ratio: float = 0.2

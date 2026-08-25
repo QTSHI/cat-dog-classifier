@@ -1,31 +1,26 @@
 # PyTorch 版
 
-这是独立的 PyTorch 实现，支持自动求导、数据增强、Adam，以及 CUDA、Apple MPS 和 CPU。
+这个版本把手写网络换成 PyTorch 写法，仍然保留两层卷积，便于和 NumPy 结果比较。训练使用 Adam、随机裁剪和水平翻转。
 
 ## 文件
 
-- `data.py`：数据增强、分层划分和 DataLoader；
-- `model.py`：CNN 模型；
-- `engine.py`：训练与评估循环；
-- `train.py`：训练入口；
-- `evaluate.py`：测试准确率和混淆矩阵；
-- `predict.py`：单张图片预测；
-- `visualize_errors.py`：混淆矩阵和误判样本分析；
-- `utils.py`：设备、随机种子和模型存档。
-
-## 安装
-
-```bash
-python3 -m pip install -r implementations/pytorch/requirements.txt
-```
+- `data.py`：数据增强、数据划分和 DataLoader；
+- `model.py`：网络；
+- `engine.py`：训练和测试循环；
+- `train.py`：训练脚本；
+- `evaluate.py`：测试脚本；
+- `predict.py`：预测单张图片；
+- `visualize_errors.py`：混淆矩阵和误判图片；
+- `utils.py`：设备、随机种子和模型存取。
 
 ## 训练
 
 ```bash
+python3 -m pip install -r implementations/pytorch/requirements.txt
 python3 implementations/pytorch/train.py --epochs 10 --batch-size 32
 ```
 
-Mac 可明确指定 MPS：
+Mac 可以使用 MPS：
 
 ```bash
 python3 -u implementations/pytorch/train.py \
@@ -34,22 +29,12 @@ python3 -u implementations/pytorch/train.py \
   --num-workers 4
 ```
 
-最佳模型保存在 `outputs/pytorch/best_model_pytorch.pt`。
-
-## 测试与预测
+## 测试
 
 ```bash
 python3 implementations/pytorch/evaluate.py --device mps
-python3 implementations/pytorch/predict.py "/完整路径/图片.jpg" --device mps
+python3 implementations/pytorch/predict.py "/图片路径/example.jpg" --device mps
 python3 implementations/pytorch/visualize_errors.py --device mps --num-workers 4
 ```
 
-可视化结果保存在 `outputs/pytorch`。
-
-## 当前结果
-
-- 最佳验证准确率：80.58%；
-- 测试损失：0.4467；
-- 测试准确率：80.48%；
-- 猫识别正确率：79.80%；
-- 狗识别正确率：81.16%。
+模型和图表写入 `outputs/pytorch`。目前测试准确率是 80.48%。

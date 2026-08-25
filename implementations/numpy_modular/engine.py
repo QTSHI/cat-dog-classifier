@@ -1,4 +1,4 @@
-"""NumPy 模型共用的训练和评估流程。"""
+"""训练和测试循环。"""
 
 import numpy as np
 
@@ -7,7 +7,7 @@ from metrics import ClassificationMetrics, add_to_confusion_matrix
 
 
 def limit_dataset(image_paths, labels, max_samples):
-    """调试时只保留前 max_samples 个样本。"""
+    """少量数据试跑时限制样本数。"""
 
     if max_samples is None:
         return image_paths, labels
@@ -27,7 +27,7 @@ def train_one_epoch(
     total_epochs=None,
     progress_interval=20,
 ):
-    """训练一轮并返回平均损失和准确率。"""
+    """训练一轮。"""
 
     if len(image_paths) == 0:
         raise ValueError("训练数据不能为空")
@@ -85,7 +85,7 @@ def evaluate_model(
     progress_label=None,
     progress_interval=0,
 ):
-    """只做前向传播，可选计算混淆矩阵。"""
+    """计算损失、准确率和混淆矩阵。"""
 
     if len(image_paths) == 0:
         raise ValueError("评估数据不能为空")

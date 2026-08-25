@@ -12,9 +12,7 @@ from model import CatVsDog
 from optimizer import SGD
 
 
-# -------------------------
 # 训练配置
-# -------------------------
 
 SEED = 23
 VALIDATION_RATIO = 0.2 #验证数据的比例 
@@ -22,8 +20,7 @@ BATCH_SIZE = 8
 LEARNING_RATE = 0.01
 EPOCHS = 5
 
-# 第一次调试只使用少量数据
-# 确认程序正常后改成 None
+# 少量数据试跑时填写数字，完整训练保持 None
 MAX_TRAIN_SAMPLES = None
 MAX_VALIDATION_SAMPLES = None
 

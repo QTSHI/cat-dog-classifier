@@ -1,4 +1,4 @@
-"""批量裁剪并统一猫狗图片尺寸。"""
+"""裁剪猫狗图片。"""
 
 import argparse
 from pathlib import Path
@@ -12,7 +12,7 @@ VALID_SUFFIXES = {".jpg", ".jpeg", ".png"}
 
 
 def preprocess_image(source_path, target_path, image_size=(128, 128)):
-    """处理一张图片。"""
+    """裁剪并保存一张图片。"""
 
     with Image.open(source_path) as image:
         image = image.convert("RGB")
@@ -32,7 +32,7 @@ def preprocess_dataset(
     max_images=None,
     class_names=("cats", "dogs"),
 ):
-    """处理整个数据集，并返回每个类别的成功/失败数量。"""
+    """按 cats 和 dogs 两个目录处理图片。"""
 
     source_root = Path(source_root)
     target_root = Path(target_root)

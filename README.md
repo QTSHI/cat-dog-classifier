@@ -1,31 +1,29 @@
-# Cat and Dog Classifier
+# 猫狗分类器
 
-这是一个猫狗图片分类项目，保留了 NumPy 原始实现、NumPy 模块化实现和 PyTorch 实现，方便对照学习。
+这是我学习卷积神经网络时做的猫狗分类项目。最开始用 NumPy 手写卷积和反向传播，之后整理了一份模块化代码，又写了一个 PyTorch 版本作对照。
 
-项目设计和实验结果见 [architecture.md](docs/architecture.md)。
-
-## 项目结构
+## 目录
 
 ```text
-cat-dog-classifier/
-├── implementations/
-│   ├── numpy_baseline/    # 原始 NumPy 手写版
-│   ├── numpy_modular/     # 模块化 NumPy 版
-│   └── pytorch/           # PyTorch 版
-├── notebooks/             # Jupyter Notebook
-├── docs/                  # 设计文档
-├── data/
-│   ├── raw/               # 原始图片
-│   └── processed/         # 128×128 预处理图片
-└── outputs/
-    ├── numpy_baseline/
-    ├── numpy_modular/
-    └── pytorch/
+implementations/
+├── numpy_baseline/    最早的 NumPy 手写版
+├── numpy_modular/     拆分过的 NumPy 版
+└── pytorch/           PyTorch 版
+notebooks/             Notebook 学习记录
+docs/                  结构和实验记录
+data/                  本地数据集
+outputs/               模型与测试结果
 ```
 
-数据集图片不会上传到 GitHub，需要放在 `data/raw` 或 `data/processed` 对应目录中。
+模型结构、参数选择和实验结果写在 [architecture.md](docs/architecture.md) 中。
 
-## NumPy 原始版
+## 数据
+
+数据来自 [Kaggle Dogs vs. Cats](https://www.kaggle.com/datasets/princelv84/dogsvscats)。图片没有提交到仓库，目录格式见 [data/README.md](data/README.md)。
+
+## 运行
+
+NumPy 手写版：
 
 ```bash
 python3 -m pip install -r implementations/numpy_baseline/requirements.txt
@@ -34,9 +32,7 @@ python3 implementations/numpy_baseline/train.py
 python3 implementations/numpy_baseline/evaluate.py
 ```
 
-详细说明见 [numpy_baseline/README.md](implementations/numpy_baseline/README.md)。
-
-## NumPy 模块化版
+NumPy 模块化版：
 
 ```bash
 python3 -m pip install -r implementations/numpy_modular/requirements.txt
@@ -45,22 +41,19 @@ python3 implementations/numpy_modular/train.py
 python3 implementations/numpy_modular/evaluate.py
 ```
 
-详细说明见 [numpy_modular/README.md](implementations/numpy_modular/README.md)。
-
-## PyTorch 版
+PyTorch 版：
 
 ```bash
 python3 -m pip install -r implementations/pytorch/requirements.txt
 python3 implementations/pytorch/train.py --device mps
 python3 implementations/pytorch/evaluate.py --device mps
-python3 implementations/pytorch/visualize_errors.py --device mps --num-workers 4
 ```
 
-更多参数见 [pytorch/README.md](implementations/pytorch/README.md)。
+## 结果
 
-## 当前结果
-
-| 版本 | 最佳验证准确率 | 测试准确率 |
+| 代码 | 最佳验证准确率 | 测试准确率 |
 | --- | ---: | ---: |
-| NumPy 原始版 | 76.80% | 76.24% |
+| NumPy 手写版 | 76.80% | 76.24% |
 | PyTorch 版 | 80.58% | 80.48% |
+
+模块化 NumPy 版只整理了代码，没有改变网络和计算方法，因此没有把它当成新的对比实验。

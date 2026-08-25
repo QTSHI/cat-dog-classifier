@@ -1,19 +1,18 @@
 # NumPy 模块化版
 
-这个版本保留 NumPy 手写 CNN，同时把配置、训练、指标和模型存档拆成可复用模块。
+这份代码和手写版使用同一个网络，区别只是把重复内容拆开了。之后想换优化器、增加指标或调整训练过程时，不用都挤在 `train.py` 里修改。
 
 ## 文件
 
-- `config.py`：路径和默认参数；
-- `preprocess.py`：图片预处理；
-- `data.py`：数据读取和划分；
-- `layers.py`、`model.py`：网络结构；
+- `config.py`：路径和训练参数；
+- `preprocess.py`、`data.py`：图片和数据；
+- `layers.py`、`model.py`：网络；
 - `optimizer.py`：SGD；
-- `engine.py`：训练和评估流程；
-- `metrics.py`：指标和混淆矩阵；
-- `checkpoint.py`：模型存档；
-- `train.py`、`evaluate.py`：运行入口；
-- `smoke_test.py`：快速检查训练链路。
+- `engine.py`：一轮训练和测试；
+- `metrics.py`：准确率与混淆矩阵；
+- `checkpoint.py`：参数存取；
+- `train.py`、`evaluate.py`：运行脚本；
+- `smoke_test.py`：四张图片的小测试。
 
 ## 运行
 
@@ -33,4 +32,4 @@ python3 implementations/numpy_modular/train.py \
   --max-validation-samples 20
 ```
 
-最佳模型保存在 `outputs/numpy_modular/best_model_numpy.npz`，不会覆盖原始 NumPy 版模型。
+模型写入 `outputs/numpy_modular/best_model_numpy.npz`，不会覆盖手写版模型。

@@ -1,4 +1,4 @@
-"""数据集划分、增强和 DataLoader 构建。"""
+"""数据读取与增强。"""
 
 from pathlib import Path
 
@@ -15,7 +15,7 @@ NORMALIZE_STD = (0.5, 0.5, 0.5)
 
 
 def training_transform():
-    """训练增强：随机裁剪、水平翻转、张量化和归一化。"""
+    """训练图片的处理方式。"""
 
     return v2.Compose(
         [
@@ -34,7 +34,7 @@ def training_transform():
 
 
 def evaluation_transform():
-    """验证、测试和预测共用的确定性预处理。"""
+    """验证和测试图片的处理方式。"""
 
     return v2.Compose(
         [
@@ -59,7 +59,7 @@ def stratified_split_indices(
     validation_ratio: float,
     seed: int,
 ) -> tuple[list[int], list[int]]:
-    """逐类别随机划分，保持训练集和验证集类别比例一致。"""
+    """分别划分猫和狗，避免比例变化。"""
 
     if not 0.0 < validation_ratio < 1.0:
         raise ValueError("validation_ratio 必须在 0 和 1 之间")
@@ -170,4 +170,3 @@ def build_test_loader(
         persistent_workers=num_workers > 0,
     )
     return loader, dataset.class_to_idx
-

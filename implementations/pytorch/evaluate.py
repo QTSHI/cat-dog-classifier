@@ -1,4 +1,4 @@
-"""在独立测试集上评估最佳模型。"""
+"""测试保存的模型。"""
 
 import argparse
 from pathlib import Path

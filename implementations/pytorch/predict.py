@@ -1,4 +1,4 @@
-"""使用最佳模型预测单张猫狗图片。"""
+"""预测一张图片。"""
 
 import argparse
 from pathlib import Path

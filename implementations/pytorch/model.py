@@ -4,7 +4,7 @@ from torch import nn
 
 
 class CatDogCNN(nn.Module):
-    """与原 NumPy 版本结构对应的 PyTorch CNN。"""
+    """两层卷积的猫狗分类网络。"""
 
     def __init__(self, num_classes: int = 2) -> None:
         super().__init__()
@@ -41,4 +41,3 @@ class CatDogCNN(nn.Module):
     def forward(self, images):
         features = self.features(images)
         return self.classifier(features)
-

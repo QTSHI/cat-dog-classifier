@@ -1,4 +1,4 @@
-"""训练 NumPy 手写 CNN，并保存验证集表现最好的参数。"""
+"""训练 NumPy CNN。"""
 
 import argparse
 import time
@@ -44,7 +44,7 @@ def build_config(args):
 
 
 def train(config):
-    """按配置训练模型，返回最佳验证准确率。"""
+    """训练并返回最好的验证准确率。"""
 
     rng = np.random.default_rng(seed=config.seed)
     image_paths, labels = collect_dataset(config.data_dir)

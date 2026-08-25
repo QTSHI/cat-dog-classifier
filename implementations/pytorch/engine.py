@@ -1,4 +1,4 @@
-"""训练与评估循环。"""
+"""训练和测试循环。"""
 
 import torch
 from torch import nn
@@ -85,4 +85,3 @@ def evaluate(
         total_correct / total_samples,
         confusion_matrix,
     )
-

@@ -1,4 +1,4 @@
-"""用四张真实图片快速检查前向、反向和 SGD 更新。"""
+"""用四张图片检查前向和反向传播。"""
 
 import numpy as np
 
@@ -30,7 +30,7 @@ def build_sample_batch(dataset_root, samples_per_class=2, seed=42):
 
 
 def overfit_small_batch(steps=10, learning_rate=0.005):
-    """反复学习同一小批图片，确认损失能够下降。"""
+    """反复训练同一个 batch，观察损失是否下降。"""
 
     batch_images, batch_labels = build_sample_batch(
         PREPROCESSED_DATA_ROOT / "train"
