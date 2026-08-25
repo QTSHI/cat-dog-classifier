@@ -1,0 +1,10 @@
+{
+  "total_samples": 5000,
+  "correct_samples": 4024,
+  "error_samples": 976,
+  "accuracy": 0.8048,
+  "cat_as_dog": 505,
+  "dog_as_cat": 471,
+  "cat_error_rate": 0.202,
+  "dog_error_rate": 0.1884
+}

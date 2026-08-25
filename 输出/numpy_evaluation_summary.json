@@ -1,0 +1,23 @@
+{
+  "source": "VS Code terminal output",
+  "recorded_date": "2026-08-25",
+  "epochs": 5,
+  "batch_size": 8,
+  "learning_rate": 0.01,
+  "optimizer": "SGD",
+  "final_train_loss": 0.4132,
+  "final_train_accuracy": 0.8099,
+  "final_validation_loss": 0.5001,
+  "best_validation_accuracy": 0.768,
+  "final_epoch_seconds": 132.14,
+  "total_training_seconds": 678.73,
+  "test_samples": 5000,
+  "test_loss": 0.5015,
+  "test_accuracy": 0.7624,
+  "cat_accuracy": 0.7412,
+  "dog_accuracy": 0.7836,
+  "confusion_matrix": [
+    [1853, 647],
+    [541, 1959]
+  ]
+}
