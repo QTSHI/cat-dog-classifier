@@ -1,73 +1,66 @@
-# 猫狗分类器
+# Cat and Dog Classifier
 
-这个项目有三个版本，原文件都保留着：
+这是一个猫狗图片分类项目，保留了 NumPy 原始实现、NumPy 模块化实现和 PyTorch 实现，方便对照学习。
 
-- `代码`：NumPy 手写版，用来学习卷积、反向传播和 SGD；
-- `PyTorch版本`：框架版，用来快速训练、测试和分析错误；
-- `Jupyter_Notebook`：把手写版整理成一个 Notebook，方便边看边运行。
+项目设计和实验结果见 [architecture.md](docs/architecture.md)。
 
-项目思路和实验结果见 [结构设计.md](框架设计/结构设计.md)。
-
-## 文件夹
+## 项目结构
 
 ```text
-猫狗分类器/
-├── 代码/                 NumPy 手写版
-├── PyTorch版本/          PyTorch 版
-├── Jupyter_Notebook/     Notebook 版
-├── 数据/                 原始数据和预处理数据
-├── 输出/                 模型、图表和测试结果
-└── 框架设计/             项目说明
+cat-dog-classifier/
+├── implementations/
+│   ├── numpy_baseline/    # 原始 NumPy 手写版
+│   ├── numpy_modular/     # 模块化 NumPy 版
+│   └── pytorch/           # PyTorch 版
+├── notebooks/             # Jupyter Notebook
+├── docs/                  # 设计文档
+├── data/
+│   ├── raw/               # 原始图片
+│   └── processed/         # 128×128 预处理图片
+└── outputs/
+    ├── numpy_baseline/
+    ├── numpy_modular/
+    └── pytorch/
 ```
 
-## NumPy 版本
+数据集图片不会上传到 GitHub，需要放在 `data/raw` 或 `data/processed` 对应目录中。
+
+## NumPy 原始版
 
 ```bash
-python "代码/train.py"
-python "代码/evaluate.py"
+python3 -m pip install -r implementations/numpy_baseline/requirements.txt
+python3 implementations/numpy_baseline/smoke_test.py
+python3 implementations/numpy_baseline/train.py
+python3 implementations/numpy_baseline/evaluate.py
 ```
 
-每个文件的用途见 [NumPy 版说明](代码/README.md)。
+详细说明见 [numpy_baseline/README.md](implementations/numpy_baseline/README.md)。
 
-## PyTorch 版本
-
-安装依赖：
+## NumPy 模块化版
 
 ```bash
-python3 -m pip install -r "PyTorch版本/requirements.txt"
+python3 -m pip install -r implementations/numpy_modular/requirements.txt
+python3 implementations/numpy_modular/smoke_test.py
+python3 implementations/numpy_modular/train.py
+python3 implementations/numpy_modular/evaluate.py
 ```
 
-使用 Mac GPU 训练：
+详细说明见 [numpy_modular/README.md](implementations/numpy_modular/README.md)。
+
+## PyTorch 版
 
 ```bash
-python3 -u "PyTorch版本/train.py" \
-  --device mps \
-  --batch-size 64 \
-  --num-workers 4
+python3 -m pip install -r implementations/pytorch/requirements.txt
+python3 implementations/pytorch/train.py --device mps
+python3 implementations/pytorch/evaluate.py --device mps
+python3 implementations/pytorch/visualize_errors.py --device mps --num-workers 4
 ```
 
-测试和生成误判图：
-
-```bash
-python3 "PyTorch版本/evaluate.py" --device mps
-python3 "PyTorch版本/visualize_errors.py" --device mps --num-workers 4
-```
-
-更多参数见 [PyTorch 版说明](PyTorch版本/README.md)。
+更多参数见 [pytorch/README.md](implementations/pytorch/README.md)。
 
 ## 当前结果
 
-NumPy 手写版：
-
-- 最佳验证准确率：76.80%；
-- 测试准确率：76.24%；
-- 猫识别正确率：74.12%；
-- 狗识别正确率：78.36%。
-
-PyTorch 版：
-
-- 最佳验证准确率：80.58%；
-- 测试准确率：80.48%；
-- 猫识别正确率：79.80%；
-- 狗识别正确率：81.16%。
-
+| 版本 | 最佳验证准确率 | 测试准确率 |
+| --- | ---: | ---: |
+| NumPy 原始版 | 76.80% | 76.24% |
+| PyTorch 版 | 80.58% | 80.48% |

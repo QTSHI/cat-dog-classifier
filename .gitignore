@@ -1,5 +1,11 @@
-*.jpg
-*.pyc
+# 数据集
+/data/raw/
+/data/processed/
+
+# Python 缓存和 NumPy 模型
+__pycache__/
+*.py[cod]
 *.npz
 
+# macOS
 .DS_Store
