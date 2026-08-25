@@ -16,11 +16,11 @@ from optimizer import SGD
 # 训练配置
 # -------------------------
 
-SEED = 42
-VALIDATION_RATIO = 0.2
+SEED = 23
+VALIDATION_RATIO = 0.2 #验证数据的比例 
 BATCH_SIZE = 8
-LEARNING_RATE = 0.005
-EPOCHS = 10
+LEARNING_RATE = 0.01
+EPOCHS = 5
 
 # 第一次调试只使用少量数据
 # 确认程序正常后改成 None
