@@ -1,6 +1,7 @@
 """训练 PyTorch 猫狗分类模型。"""
 
 import argparse
+import json
 import time
 from pathlib import Path
 
@@ -10,6 +11,7 @@ from torch import nn
 from data import build_train_validation_loaders
 from engine import evaluate, train_one_epoch
 from model import CatDogCNN
+from plot_history import plot_training_loss
 from utils import save_checkpoint, select_device, set_seed
 
 
@@ -80,6 +82,7 @@ def main() -> None:
 
     best_model_path = args.output_dir / "best_model_pytorch.pt"
     best_accuracy = -1.0
+    history = []
     started_at = time.time()
 
     print(f"设备：{device}")
@@ -111,6 +114,16 @@ def main() -> None:
         )
         print(f"本轮耗时：{time.time() - epoch_started_at:.2f} 秒")
 
+        history.append(
+            {
+                "epoch": epoch,
+                "train_loss": train_loss,
+                "validation_loss": validation_loss,
+                "train_accuracy": train_accuracy,
+                "validation_accuracy": validation_accuracy,
+            }
+        )
+
         if validation_accuracy > best_accuracy:
             best_accuracy = validation_accuracy
             save_checkpoint(
@@ -123,10 +136,20 @@ def main() -> None:
             )
             print(f"已保存最佳模型：{best_model_path}")
 
+    history_path = args.output_dir / "training_history.json"
+    curve_path = args.output_dir / "training_loss_curve.png"
+    history_path.write_text(
+        json.dumps(history, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    plot_training_loss(history, curve_path)
+
     print(
         f"\n训练完成，最佳验证准确率：{best_accuracy * 100:.2f}%，"
         f"总耗时：{time.time() - started_at:.2f} 秒"
     )
+    print(f"训练记录：{history_path}")
+    print(f"损失曲线：{curve_path}")
 
 
 if __name__ == "__main__":

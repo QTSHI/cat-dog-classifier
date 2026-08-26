@@ -1,13 +1,12 @@
 # 猫狗分类器
 
-这是我学习卷积神经网络时做的猫狗分类项目。最开始用 NumPy 手写卷积和反向传播，之后整理了一份模块化代码，又写了一个 PyTorch 版本作对照。
+这是我学习卷积神经网络时做的猫狗分类项目，包括 NumPy 手写版和 PyTorch 版。
 
 ## 目录
 
 ```text
 implementations/
-├── numpy_baseline/    最早的 NumPy 手写版
-├── numpy_modular/     拆分过的 NumPy 版
+├── numpy_baseline/    NumPy 手写版
 └── pytorch/           PyTorch 版
 notebooks/             Notebook 学习记录
 docs/                  结构和实验记录
@@ -32,15 +31,6 @@ python3 implementations/numpy_baseline/train.py
 python3 implementations/numpy_baseline/evaluate.py
 ```
 
-NumPy 模块化版：
-
-```bash
-python3 -m pip install -r implementations/numpy_modular/requirements.txt
-python3 implementations/numpy_modular/smoke_test.py
-python3 implementations/numpy_modular/train.py
-python3 implementations/numpy_modular/evaluate.py
-```
-
 PyTorch 版：
 
 ```bash
@@ -56,4 +46,16 @@ python3 implementations/pytorch/evaluate.py --device mps
 | NumPy 手写版 | 76.80% | 76.24% |
 | PyTorch 版 | 80.58% | 80.48% |
 
-模块化 NumPy 版只整理了代码，没有改变网络和计算方法，因此没有把它当成新的对比实验。
+## PyTorch 训练曲线
+
+![PyTorch 训练损失曲线](outputs/pytorch/training_loss_curve.png)
+
+曲线数据保存在 `outputs/pytorch/training_history.json`。
+
+## Notebook
+
+PyTorch Notebook 在 [notebooks/cat_dog_classifier_workflow.ipynb](notebooks/cat_dog_classifier_workflow.ipynb)，其中包含数据样本、特征图、训练曲线、混淆矩阵、误判样本和卷积核可视化。
+
+```bash
+jupyter notebook notebooks/cat_dog_classifier_workflow.ipynb
+```

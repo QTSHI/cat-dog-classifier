@@ -11,6 +11,9 @@
 - `evaluate.py`：测试脚本；
 - `predict.py`：预测单张图片；
 - `visualize_errors.py`：混淆矩阵和误判图片；
+- `plot_typical_errors.py`：整理文档中使用的典型误判样本；
+- `plot_filters.py`：显示训练后的第一层卷积核；
+- `plot_history.py`：训练损失曲线；
 - `utils.py`：设备、随机种子和模型存取。
 
 ## 训练
@@ -35,6 +38,8 @@ python3 -u implementations/pytorch/train.py \
 python3 implementations/pytorch/evaluate.py --device mps
 python3 implementations/pytorch/predict.py "/图片路径/example.jpg" --device mps
 python3 implementations/pytorch/visualize_errors.py --device mps --num-workers 4
+python3 implementations/pytorch/plot_typical_errors.py
+python3 implementations/pytorch/plot_filters.py
 ```
 
-模型和图表写入 `outputs/pytorch`。目前测试准确率是 80.48%。
+模型和图表写入 `outputs/pytorch`。训练结束后会生成 `training_history.json` 和 `training_loss_curve.png`。目前测试准确率是 80.48%。
