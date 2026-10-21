@@ -1,6 +1,83 @@
 # 猫狗分类器
 
-这是我学习卷积神经网络时做的猫狗分类项目，包括 NumPy 手写版和 PyTorch 版。
+这是我学习卷积神经网络时做的猫狗分类项目：先用 NumPy 手写前向传播、反向传播和 SGD，再用 PyTorch 实现相同的两层卷积结构，比较训练过程并分析误判。
+
+- **NumPy 手写版**：从卷积、池化到梯度更新，理解网络怎样学习。
+- **PyTorch 版**：包含训练、测试、单图预测和误判可视化。
+- **实验记录**：保留模型、指标、训练曲线与 Notebook，便于查看实现过程和结果。
+
+两套代码都接收 `128 × 128` 的 RGB 图片，类别约定为猫 `0`、狗 `1`。结构与实验分析见 [设计与实验记录](docs/architecture.md)。
+
+## 结果
+
+| 实现 | 最佳验证准确率 | 测试准确率 | 记录 |
+| --- | ---: | ---: | --- |
+| NumPy 手写版 | 76.80% | 76.24% | [实验摘要](outputs/numpy_baseline/evaluation_summary.json) |
+| PyTorch 版 | 80.58% | 80.48% | [实验记录](docs/architecture.md#实验结果)、[测试摘要](outputs/pytorch/evaluation_summary.json) |
+
+这些是仓库保留的历史实验结果，测试集为 5,000 张图片。两版的优化器、归一化和数据增强不同，不能把差距简单归因于框架。依赖没有锁定完整版本，重新训练的结果可能不同。
+
+![PyTorch 训练损失曲线](outputs/pytorch/training_loss_curve.png)
+
+曲线来自 2026 年 8 月 26 日的另一次训练，数据见 [training_history.json](outputs/pytorch/training_history.json)，不对应上表原始最佳模型的逐轮记录。误判原因、异常样本和改进方向见 [设计与实验记录](docs/architecture.md)。
+
+## 快速体验单图预测
+
+准备支持 PyTorch 的 Python 环境；PyTorch 脚本使用 Python 3.10 及以上的类型注解语法。以下命令均在仓库根目录执行，`python` 应指向你使用的 Python 环境（部分系统命令名为 `python3`）。
+
+```bash
+git clone https://github.com/QTSHI/cat-dog-classifier.git
+cd cat-dog-classifier
+python -m venv .venv
+```
+
+激活环境：Windows PowerShell 使用 `.\.venv\Scripts\Activate.ps1`；macOS / Linux 使用 `source .venv/bin/activate`。
+
+```bash
+python -m pip install -r implementations/pytorch/requirements.txt
+python implementations/pytorch/predict.py "path/to/example.jpg" --device cpu
+```
+
+将图片路径换成自己的猫狗照片。仓库已包含 `outputs/pytorch/best_model_pytorch.pt`，单图预测不需要完整数据集。程序输出猫、狗的预测概率；它只在这两个类别间选择，不能判断图片是否真的包含猫或狗。
+
+`--device` 支持 `auto`、`cpu`、`cuda`、`mps`，默认自动选择可用设备。CUDA 和 Apple MPS 需要对应硬件与运行环境。
+
+## 复现实验
+
+1. 从 [Kaggle Dogs vs. Cats](https://www.kaggle.com/datasets/princelv84/dogsvscats) 获取数据，按 [数据准备说明](data/README.md) 放置并预处理训练集、测试集。图片未提交到仓库。
+2. 选择一套实现安装依赖，再运行训练与测试。两套实现都默认读取 `data/processed/`。
+
+> [!NOTE]
+> 训练会写入模型和实验产物。PyTorch 默认使用 `outputs/pytorch/`，会覆盖同名历史文件；建议用 `--output-dir outputs/local-run` 保存新实验，并在测试时用 `--model-path` 指向新模型。NumPy 版使用脚本中的固定输出路径，运行前请先备份已有本地结果。
+
+PyTorch 版（10 轮、batch size 32 为脚本默认值）：
+
+```bash
+python implementations/pytorch/train.py --device auto --output-dir outputs/local-run
+python implementations/pytorch/evaluate.py --device auto --model-path outputs/local-run/best_model_pytorch.pt
+```
+
+NumPy 手写版（先准备每类至少两张 `128 × 128` 训练图片，再执行冒烟测试）：
+
+```bash
+python -m pip install -r implementations/numpy_baseline/requirements.txt
+python implementations/numpy_baseline/smoke_test.py
+python implementations/numpy_baseline/train.py
+python implementations/numpy_baseline/evaluate.py
+```
+
+NumPy 测试所需的 `best_model_numpy.npz` 没有提交，需先完成训练。参数、设备选项和可视化命令分别见 [NumPy 说明](implementations/numpy_baseline/README.md)、[PyTorch 说明](implementations/pytorch/README.md)；产物的来源与重建方式见 [输出文件说明](outputs/README.md)。
+
+## Notebook
+
+[cat_dog_classifier_workflow.ipynb](notebooks/cat_dog_classifier_workflow.ipynb) 包含数据样本、特征图、训练曲线、混淆矩阵、误判样本和卷积核可视化。按顺序运行需要本地数据；默认读取已有模型，不会自动重新训练。
+
+```bash
+python -m pip install -r implementations/pytorch/requirements.txt -r notebooks/requirements.txt
+jupyter notebook notebooks/cat_dog_classifier_workflow.ipynb
+```
+
+详细环境说明见 [Notebook 说明](notebooks/README.md)。
 
 ## 目录
 
@@ -14,48 +91,4 @@ data/                  本地数据集
 outputs/               模型与测试结果
 ```
 
-模型结构、参数选择和实验结果写在 [architecture.md](docs/architecture.md) 中。
-
-## 数据
-
-数据来自 [Kaggle Dogs vs. Cats](https://www.kaggle.com/datasets/princelv84/dogsvscats)。图片没有提交到仓库，目录格式见 [data/README.md](data/README.md)。
-
-## 运行
-
-NumPy 手写版：
-
-```bash
-python3 -m pip install -r implementations/numpy_baseline/requirements.txt
-python3 implementations/numpy_baseline/smoke_test.py
-python3 implementations/numpy_baseline/train.py
-python3 implementations/numpy_baseline/evaluate.py
-```
-
-PyTorch 版：
-
-```bash
-python3 -m pip install -r implementations/pytorch/requirements.txt
-python3 implementations/pytorch/train.py --device mps
-python3 implementations/pytorch/evaluate.py --device mps
-```
-
-## 结果
-
-| 代码 | 最佳验证准确率 | 测试准确率 |
-| --- | ---: | ---: |
-| NumPy 手写版 | 76.80% | 76.24% |
-| PyTorch 版 | 80.58% | 80.48% |
-
-## PyTorch 训练曲线
-
-![PyTorch 训练损失曲线](outputs/pytorch/training_loss_curve.png)
-
-曲线数据保存在 `outputs/pytorch/training_history.json`。
-
-## Notebook
-
-PyTorch Notebook 在 [notebooks/cat_dog_classifier_workflow.ipynb](notebooks/cat_dog_classifier_workflow.ipynb)，其中包含数据样本、特征图、训练曲线、混淆矩阵、误判样本和卷积核可视化。
-
-```bash
-jupyter notebook notebooks/cat_dog_classifier_workflow.ipynb
-```
+开发检查和协作约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
