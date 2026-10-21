@@ -1,0 +1,39 @@
+name: Lightweight checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Check Python syntax
+        run: python -m compileall -q implementations
+      - name: Parse tracked JSON and notebooks
+        shell: python
+        run: |
+          import json
+          import subprocess
+          from pathlib import Path
+
+          tracked = subprocess.check_output(
+              ['git', 'ls-files', '-z'], text=True
+          ).split('\0')
+          for name in tracked:
+              path = Path(name)
+              if path.suffix in {'.json', '.ipynb'}:
+                  json.loads(path.read_text(encoding='utf-8'))
+                  print(f'Parsed {name}')

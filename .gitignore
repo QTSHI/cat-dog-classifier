@@ -7,5 +7,13 @@ __pycache__/
 *.py[cod]
 *.npz
 
+# 本地环境与 Notebook 缓存
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# 新实验输出；已提交的历史模型和图表继续保留
+/outputs/local-run/
+
 # macOS
 .DS_Store
